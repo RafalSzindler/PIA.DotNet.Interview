@@ -33,6 +33,15 @@ namespace PIA.DotNet.Interview.Backend.Controllers
         {
             return _taskLogicService.Edit(id, taskViewModel);
         }
+        [HttpPost]
+        public bool SetFinished(string id)
+        {
+            TaskViewModel task = _taskLogicService.Get(id);
+
+            task.IsFinished = true;
+
+           return _taskLogicService.Edit(id,task);        
+        }
 
         [HttpPost("[action]")]
         public bool DeleteTask(string id, TaskViewModel taskViewModel)
@@ -41,7 +50,7 @@ namespace PIA.DotNet.Interview.Backend.Controllers
         }
 
         [HttpGet("[action]")]
-        public TaskViewModel GetTask(string id, TaskViewModel taskViewModel)
+        public TaskViewModel GetTask(string id)
         {
             return _taskLogicService.Get(id);
         }

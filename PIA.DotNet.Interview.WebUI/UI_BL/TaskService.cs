@@ -3,7 +3,10 @@ using PIA.DotNet.Interview.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
+
 
 namespace PIA.DotNet.Interview.WebUI.UI_BL
 {
@@ -27,6 +30,16 @@ namespace PIA.DotNet.Interview.WebUI.UI_BL
         }
 
         public Task<bool> Edit(string id, TaskViewModel task)
+        {
+            var requestJson = JsonConvert.SerializeObject(task);
+            var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+            
+            var responseresult = _httpClient.PostAsync(String.Format("{0}api/task/EditTask?id={1}", _remoteServiceBaseUrl,id), content);
+
+            return Task.FromResult(true);              
+                       
+        }
+        public Task<bool> Set(string id, TaskViewModel task)
         {
             // to do
             throw new NotImplementedException();
@@ -53,9 +66,11 @@ namespace PIA.DotNet.Interview.WebUI.UI_BL
             return "<h1> This Is Modeless Popup Window</h1>";
         }
 
-        public Task<TaskViewModel> Get(string id)
+        public async Task<TaskViewModel> Get(string id)
         {
-            throw new NotImplementedException();
+            var requestJson = JsonConvert.SerializeObject(id);
+            var responseString = await _httpClient.GetStringAsync(String.Format("{0}api/task/GetTask?id={1}", _remoteServiceBaseUrl,id));
+            return JsonConvert.DeserializeObject<TaskViewModel>(responseString);
         }
     }
 }
