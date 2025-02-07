@@ -39,7 +39,7 @@ namespace PIA.DotNet.Interview.WebUI.Pages
             _logger.LogInformation("Data was loaded on the page");
         }
 
-        public  ActionResult OnPostSubmit(string id)
+        public  IActionResult OnPostSubmit(string id)
         {
             var data = id;
 
@@ -53,21 +53,20 @@ namespace PIA.DotNet.Interview.WebUI.Pages
 
             var result =taskService.Edit(id,taskViewModel);
             _logger.LogInformation("Task changes  - Data was saved in to DB");
-            return new JsonResult(new { success = true });
+            return RedirectToPage("/Index");
 
 
         }
-        public ActionResult OnPostDelete(string id)
+        public  IActionResult OnPostDelete(string id)
         {
             var data = id;
-
             _logger.LogInformation(String.Format("Task  with ID - {0}  will  be deleted", id));
-            TaskService taskService = new TaskService(_remoteServiceBaseUrl);
+            TaskService taskService =  new TaskService(_remoteServiceBaseUrl);
             TaskViewModel taskViewModel = taskService.Get(id).Result;
             var result = taskService.Delete(id, taskViewModel);
             _logger.LogInformation("Task changes  - Data was deleted from to DB");
-            
-            return new JsonResult(new { success = true });
+
+            return RedirectToPage("/Index");
 
         }
 
