@@ -11,7 +11,7 @@ namespace PIA.DotNet.Interview.Core.Database
     public class DbContext : IDbContext
     {
         // private const string DATABASE_PATH = @"C:\Source\database.json"; // to do task_4
-        private string DATABASE_PATH = @"C:\Source\database.json";  // default value for
+        private string DATABASE_PATH = string.Empty; // default value for
         private Database _database;
         
 
