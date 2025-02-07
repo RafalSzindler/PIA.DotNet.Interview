@@ -37,10 +37,16 @@ namespace PIA.DotNet.Interview.WebUI.UI_BL
             throw new NotImplementedException();
         }
 
-        public async Task<bool> Delete(string id, TaskViewModel task)
+        public  Task<bool> Delete(string id, TaskViewModel task)
         {
             logger.LogCreate(this.ToString(), "TaskService Delete method is used");
-            throw new NotImplementedException();
+
+            var requestJson = JsonConvert.SerializeObject(task);
+            var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+
+            var responseresult = _httpClient.PostAsync(String.Format("{0}api/task/DeleteTask?id={1}", _remoteServiceBaseUrl, id), content);
+
+            return Task.FromResult(true);
         }
 
         public Task<bool> Edit(string id, TaskViewModel task)

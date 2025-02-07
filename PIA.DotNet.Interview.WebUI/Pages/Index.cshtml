@@ -31,7 +31,10 @@
                     </div>
                 }
 
-                <form method="post" asp-route-id="@task.Id"><button class="btn btn-primary mt-1">Erledigt</button></form>
+                <form method="post" >
+                    <button class="btn btn-primary mt-1" asp-route-id="@task.Id" asp-page-handler="Submit">Erledigt</button>
+                    <button class="btn btn-primary mt-1" asp-route-id="@task.Id" asp-page-handler="Delete">Löschen</button>
+                </form>
 
                 @if (task.IsFinished)
                 {
