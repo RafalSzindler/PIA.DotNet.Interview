@@ -12,6 +12,10 @@ namespace PIA.DotNet.Interview.WebUI.Pages
     {
         private readonly ILogger<ReadmeModel> _logger;
 
+        public ReadmeModel(ILogger<ReadmeModel> logger)
+        {
+            _logger = logger;
+        }
         public void OnGet()
         {
             _logger.LogInformation("Data was loaded on the page Readme");
