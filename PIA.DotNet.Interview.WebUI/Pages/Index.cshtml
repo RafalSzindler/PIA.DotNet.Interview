@@ -31,9 +31,19 @@
                     </div>
                 }
 
-                <a href="#" class="btn btn-primary mt-1">Erledigt</a>
+                <form method="post" >
+                    <button class="btn btn-primary mt-1" asp-route-id="@task.Id" asp-page-handler="Submit">Erledigt</button>
+                    <button class="btn btn-primary mt-1" asp-route-id="@task.Id" asp-page-handler="Delete">Löschen</button>
+                </form>
 
-                @* to do task_2*@
+                @if (task.IsFinished)
+                {
+                    <div class="alert-success" >
+                        <p class="card-text" style="font-weight:bold;display: inline">Erledigt! </p><p class="card-text" style="display: inline">Die Aufgabe wurde erledigt</p>
+                        
+                    </div>
+                }
+
 
             </div>
         </div>
