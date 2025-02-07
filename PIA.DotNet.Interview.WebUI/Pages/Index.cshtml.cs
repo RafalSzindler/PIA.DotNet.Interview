@@ -53,7 +53,7 @@ namespace PIA.DotNet.Interview.WebUI.Pages
 
             var result =taskService.Edit(id,taskViewModel);
             _logger.LogInformation("Task changes  - Data was saved in to DB");
-            return Page();
+            return new JsonResult(new { success = true });
 
 
         }
@@ -66,7 +66,8 @@ namespace PIA.DotNet.Interview.WebUI.Pages
             TaskViewModel taskViewModel = taskService.Get(id).Result;
             var result = taskService.Delete(id, taskViewModel);
             _logger.LogInformation("Task changes  - Data was deleted from to DB");
-            return Page();
+            
+            return new JsonResult(new { success = true });
 
         }
 
