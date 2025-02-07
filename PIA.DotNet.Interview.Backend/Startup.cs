@@ -1,20 +1,34 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PIA.DotNet.Interview.Backend.Service;
 using PIA.DotNet.Interview.Core.Database;
 using PIA.DotNet.Interview.Core.Repositories;
+using System.IO;
 
 namespace PIA.DotNet.Interview.Backend
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+
+        public static IConfiguration Configuration { get; private set; }
         public void ConfigureServices(IServiceCollection services)
         {
+            //Configuration
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            Configuration = builder.Build();
+
+            string _dbPath = Configuration.GetSection("AppSettings").GetValue<string>("DBPath");
+
             // core
-            services.AddSingleton<IDbContext, DbContext>();
+            services.AddSingleton<IDbContext, DbContext>(provider => new DbContext(_dbPath));
             services.AddSingleton<ITaskRepository, TaskRepository>();
 
             // service

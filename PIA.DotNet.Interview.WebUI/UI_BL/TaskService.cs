@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using PIA.DotNet.Interview.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,20 @@ namespace PIA.DotNet.Interview.WebUI.UI_BL
     public class TaskService : ITaskService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _remoteServiceBaseUrl = "http://localhost:5001/"; // to do task_4
+        private string _remoteServiceBaseUrl =string.Empty; // as default value
+
+        private readonly ILogger<ITaskService> _logger;
 
         public TaskService()
         {
             _httpClient = new HttpClient();
         }
+        public TaskService(string remoteServiceBaseUrl)
+        {
+            _remoteServiceBaseUrl = remoteServiceBaseUrl;
+            _httpClient = new HttpClient();
+        }
+
         public async Task<bool> Add(TaskViewModel task)
         {
             throw new NotImplementedException();
@@ -31,6 +40,7 @@ namespace PIA.DotNet.Interview.WebUI.UI_BL
 
         public Task<bool> Edit(string id, TaskViewModel task)
         {
+            
             var requestJson = JsonConvert.SerializeObject(task);
             var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
             

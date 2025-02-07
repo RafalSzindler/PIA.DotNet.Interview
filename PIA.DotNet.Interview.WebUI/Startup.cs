@@ -17,17 +17,27 @@ namespace PIA.DotNet.Interview.WebUI
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; private set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-   
+            //Configuration
+            var builder = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+            Configuration = builder.Build();
+
+            string _dbPath = Configuration.GetSection("AppSettings").GetValue<string>("DBPath");
+
+            string _remoteServiceBaseUrl = Configuration.GetSection("AppSettings").GetValue<string>("WebserviceHostName");
+
+
             // core
-            services.AddSingleton<IDbContext, DbContext>();
+            services.AddSingleton<IDbContext, DbContext>(provider=> new DbContext(_dbPath));
             services.AddSingleton<ITaskRepository, TaskRepository>();
         
             // services
-            services.AddTransient<TaskService>();
+            services.AddTransient<TaskService>(provider => new TaskService(_remoteServiceBaseUrl));
             services.AddTransient<MarkdownService>();
 
             services.AddRazorPages();

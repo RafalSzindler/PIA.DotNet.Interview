@@ -5,17 +5,34 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+
 namespace PIA.DotNet.Interview.Core.Database
 {
     public class DbContext : IDbContext
     {
-        private const string DATABASE_PATH = @"C:\Source\database.json"; // to do task_4
+        // private const string DATABASE_PATH = @"C:\Source\database.json"; // to do task_4
+        private string DATABASE_PATH = @"C:\Source\database.json";  // default value for
         private Database _database;
+        
+
+
+        public string GetDatabasePath
+        {
+            get { return DATABASE_PATH; }
+            set { DATABASE_PATH = value; }         
+        }
 
         public DbContext()
-        {
+        {            
             LoadDatabase();
         }
+
+        public DbContext(string DbPath)
+        {
+            this.GetDatabasePath = DbPath;
+            LoadDatabase();
+        }
+
 
         public ICollection<T> GetDataset<T>()
         {
