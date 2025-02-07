@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PIA.DotNet.Interview.Backend.Service;
 using PIA.DotNet.Interview.Core.Database;
+using PIA.DotNet.Interview.Core.Logging;
 using PIA.DotNet.Interview.Core.Repositories;
 using System.IO;
 
@@ -30,6 +31,7 @@ namespace PIA.DotNet.Interview.Backend
             // core
             services.AddSingleton<IDbContext, DbContext>(provider => new DbContext(_dbPath));
             services.AddSingleton<ITaskRepository, TaskRepository>();
+            services.AddSingleton<PIA.DotNet.Interview.Core.Logging.ILogger, CrudLogger>(); 
 
             // service
             services.AddSingleton<ITaskLogicService, TaskLogicService>();

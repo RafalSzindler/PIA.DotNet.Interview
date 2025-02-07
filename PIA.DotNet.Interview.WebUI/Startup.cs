@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PIA.DotNet.Interview.Core.Database;
+using PIA.DotNet.Interview.Core.Logging;
 using PIA.DotNet.Interview.Core.Repositories;
 using PIA.DotNet.Interview.WebUI.UI_BL;
 
@@ -35,7 +36,8 @@ namespace PIA.DotNet.Interview.WebUI
             // core
             services.AddSingleton<IDbContext, DbContext>(provider=> new DbContext(_dbPath));
             services.AddSingleton<ITaskRepository, TaskRepository>();
-        
+            services.AddSingleton<ILogger, CrudLogger>();
+
             // services
             services.AddTransient<TaskService>(provider => new TaskService(_remoteServiceBaseUrl));
             services.AddTransient<MarkdownService>();
